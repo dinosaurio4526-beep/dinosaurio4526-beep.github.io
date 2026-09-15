@@ -172,35 +172,17 @@ h1{
   display:block;
 }
 
+/* solo se ve la imagen del sabor elegido; las demás llevan "hidden" */
+.hero-image img[hidden]{
+  display:none;
+}
+
 /*
-  Para colocar la mascota/imagen del sabor, reemplaza el <div class="image-slot">
-  por: <img src="tu-imagen.png" alt="Mascota Cañihua">
-  Mantén una imagen vertical de proporción similar (aprox. 97 x 159 px o su múltiplo)
-  para que encaje sin recortes.
+  Las imágenes de cada sabor están en el HTML, dentro de <div class="hero-image">,
+  como <img src="NOMBRE.png" data-flavor="sabor">.
+  Mantén imágenes verticales de proporción similar (aprox. 97 x 159 px o su múltiplo)
+  para que encajen sin recortes.
 */
-
-.image-slot{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  color:rgba(255,255,255,.75);
-  text-align:center;
-  padding:14px;
-}
-
-.image-slot svg{
-  width:34px;
-  height:34px;
-  opacity:.8;
-}
-
-.image-slot span{
-  font-size:11px;
-  letter-spacing:.4px;
-  line-height:1.4;
-}
 
 /* ---------- SELECTOR DE SABORES ---------- */
 
@@ -455,9 +437,11 @@ td:last-child{
       </p>
     </div>
     <div class="hero-image" id="heroImage">
-      <div class="hero-image" id="heroImage">
-  <img src="cañihua.png" alt="Mascota Cañihua">
-</div>
+      <img src="CAÑIHUA.png" alt="Mascota Cañihua" data-flavor="canihua">
+      <img src="QUINUA.png"  alt="Mascota Quinua"  data-flavor="quinua"  hidden>
+      <img src="KIWICHA.png" alt="Mascota Kiwicha" data-flavor="kiwicha" hidden>
+      <img src="TARWI.png"   alt="Mascota Tarwi"   data-flavor="tarwi"   hidden>
+      <img src="HABAS.png"   alt="Mascota Habas"   data-flavor="habas"   hidden>
     </div>
   </div>
 </section>
@@ -642,10 +626,10 @@ td:last-child{
     document.getElementById("heroSubtitle").innerHTML =
       `Información nutricional por porción de <strong>30 g</strong>, presentada de forma clara para conocer el aporte ${f.subtitle}`;
 
-    const slotLabel = document.getElementById("imageSlotLabel");
-    if(slotLabel){
-      slotLabel.innerHTML = `Espacio para imagen<br>${f.name}`;
-    }
+    // muestra solo la <img> cuyo data-flavor coincide con el sabor elegido
+    document.querySelectorAll(".hero-image img").forEach(img => {
+      img.hidden = img.dataset.flavor !== key;
+    });
 
     renderComposicion(f.grainLabel);
     renderNutricion(f.nutrients);
