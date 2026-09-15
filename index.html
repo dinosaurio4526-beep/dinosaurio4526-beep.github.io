@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es" data-flavor="canihua">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yuyay Mix — Perfil nutricional</title>
+
+<style>
+
+:root{
+  --ink:#172018;
+  --muted:#687166;
+  --cream:#f5f1e7;
+  --paper:#fffdf7;
+  --line:#ded9ca;
+
+  /* tema por defecto: cañihua (rosado) */
+  --hero1:#4a0f2e;
+  --hero2:#8a2a5e;
+  --hero3:#e6a4c4;
+  --green:#8a2a5e;
+  --green2:#b8447e;
+  --gold:#e8a0c0;
+  --gold-soft:#f6d6e6;
+  --tint:#fdf3f7;
+}
+
+/* --- Temas de color por sabor --- */
+
+html[data-flavor="quinua"]{
+  --hero1:#0d2f42;
+  --hero2:#1f5c7a;
+  --hero3:#7ec8e3;
+  --green:#1f5c7a;
+  --green2:#3a86ab;
+  --gold:#8fd3ec;
+  --gold-soft:#cdeef8;
+  --tint:#eef8fb;
+}
+
+html[data-flavor="kiwicha"]{
+  --hero1:#3a0f18;
+  --hero2:#7a1f2e;
+  --hero3:#d1622f;
+  --green:#7a1f2e;
+  --green2:#a13a2c;
+  --gold:#e08a4d;
+  --gold-soft:#f2c39a;
+  --tint:#fbf1ec;
+}
+
+html[data-flavor="tarwi"]{
+  --hero1:#4a3a05;
+  --hero2:#8a6a10;
+  --hero3:#f0c93e;
+  --green:#7a5c0c;
+  --green2:#a68317;
+  --gold:#f0c93e;
+  --gold-soft:#fae89c;
+  --tint:#fdf9e9;
+}
+
+html[data-flavor="habas"]{
+  --hero1:#16240f;
+  --hero2:#375c22;
+  --hero3:#a3c151;
+  --green:#31531f;
+  --green2:#4c7a30;
+  --gold:#c7dd7a;
+  --gold-soft:#e3edb9;
+  --tint:#f6f8ec;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  font-family:Inter, Arial, sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  transition:background .5s ease;
+}
+
+/* ---------- HERO ---------- */
+
+.hero{
+  min-height:52vh;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(120deg, var(--hero1) 0%, var(--hero2) 58%, var(--hero3) 140%);
+  color:white;
+  padding:44px 7vw 64px;
+  display:flex;
+  align-items:flex-end;
+  transition:background .6s ease;
+}
+
+.hero:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 78% 25%, rgba(255,255,255,.22), transparent 22%),
+    radial-gradient(circle at 15% 80%, rgba(255,255,255,.08), transparent 25%);
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:1180px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 230px;
+  align-items:center;
+  gap:35px;
+}
+
+.hero-text{
+  max-width:700px;
+}
+
+.eyebrow{
+  text-transform:uppercase;
+  letter-spacing:4px;
+  font-size:12px;
+  color:var(--gold-soft);
+  font-weight:700;
+  transition:color .5s ease;
+}
+
+h1{
+  font-family:Georgia, serif;
+  font-size:clamp(46px,7.5vw,96px);
+  line-height:.92;
+  margin:16px 0 14px;
+}
+
+.subtitle{
+  font-size:18px;
+  max-width:640px;
+  line-height:1.6;
+  color:#eef1ea;
+  margin:0;
+}
+
+.hero-image{
+  width:190px;
+  aspect-ratio:97 / 159;
+  margin:0 auto;
+  border-radius:22px;
+  border:2px dashed rgba(255,255,255,.45);
+  background:linear-gradient(145deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  box-shadow:0 20px 50px rgba(0,0,0,.18);
+}
+
+.hero-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/*
+  Para colocar la mascota/imagen del sabor, reemplaza el <div class="image-slot">
+  por: <img src="tu-imagen.png" alt="Mascota Cañihua">
+  Mantén una imagen vertical de proporción similar (aprox. 97 x 159 px o su múltiplo)
+  para que encaje sin recortes.
+*/
+
+.image-slot{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  color:rgba(255,255,255,.75);
+  text-align:center;
+  padding:14px;
+}
+
+.image-slot svg{
+  width:34px;
+  height:34px;
+  opacity:.8;
+}
+
+.image-slot span{
+  font-size:11px;
+  letter-spacing:.4px;
+  line-height:1.4;
+}
+
+/* ---------- SELECTOR DE SABORES ---------- */
+
+.flavor-bar{
+  position:relative;
+  z-index:4;
+  max-width:1180px;
+  margin:-30px auto 0;
+  padding:0 22px;
+}
+
+.flavor-scroller{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  padding:8px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 18px 40px rgba(23,32,24,.12);
+  scrollbar-width:thin;
+}
+
+.flavor-btn{
+  flex:1 0 auto;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:12px 18px;
+  border-radius:12px;
+  border:1px solid transparent;
+  background:transparent;
+  cursor:pointer;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:600;
+  color:var(--muted);
+  transition:background .25s ease, color .25s ease, border-color .25s ease;
+  white-space:nowrap;
+}
+
+.flavor-btn:hover{
+  background:var(--tint);
+}
+
+.flavor-btn .swatch{
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+
+.flavor-btn[data-flavor="canihua"] .swatch{ background:linear-gradient(135deg,#8a2a5e,#e6a4c4); }
+.flavor-btn[data-flavor="quinua"] .swatch{ background:linear-gradient(135deg,#1f5c7a,#7ec8e3); }
+.flavor-btn[data-flavor="kiwicha"] .swatch{ background:linear-gradient(135deg,#7a1f2e,#d1622f); }
+.flavor-btn[data-flavor="tarwi"] .swatch{ background:linear-gradient(135deg,#8a6a10,#f0c93e); }
+.flavor-btn[data-flavor="habas"] .swatch{ background:linear-gradient(135deg,#375c22,#a3c151); }
+
+.flavor-btn.active{
+  background:var(--green);
+  color:#fff;
+  border-color:var(--green);
+}
+
+/* ---------- CONTENIDO ---------- */
+
+.container{
+  max-width:1180px;
+  margin:24px auto 70px;
+  padding:0 22px;
+  position:relative;
+  z-index:3;
+}
+
+.card{
+  background:var(--paper);
+  border:1px solid var(--line);
+  box-shadow:0 24px 60px rgba(23,32,24,.12);
+  border-radius:24px;
+  overflow:hidden;
+  margin-bottom:28px;
+}
+
+.card-head{
+  padding:22px 28px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+}
+
+.card-head h2{
+  margin:0;
+  font-family:Georgia, serif;
+  font-size:26px;
+  text-align:center;
+  color:var(--ink);
+}
+
+.card-head .tag{
+  font-size:12px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--green);
+  font-weight:700;
+  transition:color .5s ease;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+th, td{
+  padding:16px 22px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+}
+
+th{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  color:var(--muted);
+  background:var(--tint);
+  text-align:center;
+  transition:background .5s ease;
+}
+
+td:last-child{
+  text-align:right;
+  font-weight:800;
+  color:var(--green);
+  transition:color .5s ease;
+}
+
+.group td:first-child{
+  padding-left:44px;
+  color:#4f594f;
+}
+
+.group td{
+  background:#fcfaf4;
+}
+
+.total-row td{
+  background:var(--gold-soft);
+  font-weight:800;
+  color:var(--green);
+  transition:background .5s ease, color .5s ease;
+}
+
+.total-row td:last-child{
+  color:var(--green);
+}
+
+.note{
+  margin-top:20px;
+  padding:22px 26px;
+  border-left:4px solid var(--gold);
+  background:var(--tint);
+  border-radius:12px;
+  color:#505850;
+  line-height:1.6;
+  font-size:14px;
+  transition:border-color .5s ease, background .5s ease;
+}
+
+.note strong{
+  color:var(--ink);
+}
+
+.sources{
+  margin-top:20px;
+  padding:20px 26px;
+  border-radius:12px;
+  background:var(--paper);
+  border:1px solid var(--line);
+  color:var(--muted);
+  font-size:12.5px;
+  line-height:1.6;
+}
+
+.footer{
+  max-width:1180px;
+  margin:0 auto 50px;
+  padding:0 22px;
+  color:#777;
+  font-size:12px;
+  text-align:center;
+}
+
+@media(max-width:760px){
+  .hero{
+    min-height:auto;
+    padding:40px 7vw 60px;
+  }
+  .hero-content{
+    grid-template-columns:1fr;
+    gap:22px;
+    text-align:center;
+  }
+  .hero-text{
+    max-width:none;
+  }
+  .subtitle{
+    margin:auto;
+  }
+  .hero-image{
+    width:140px;
+  }
+  .flavor-bar{
+    margin-top:-24px;
+  }
+  .flavor-btn{
+    padding:10px 14px;
+    font-size:13px;
+  }
+  .container{
+    margin:20px auto 50px;
+    padding:0 15px;
+  }
+  .card-head{
+    padding:18px;
+  }
+  .card-head h2{
+    font-size:22px;
+  }
+  th, td{
+    padding:12px 10px;
+    font-size:13px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="eyebrow">Yuyay Mix · Perfil nutricional</div>
+      <h1 id="heroTitle">Cañihua</h1>
+      <p class="subtitle" id="heroSubtitle">
+        Información nutricional por porción de <strong>30 g</strong>, presentada de forma clara para conocer el aporte de este grano andino.
+      </p>
+    </div>
+    <div class="hero-image" id="heroImage">
+      <div class="hero-image" id="heroImage">
+  <img src="cañihua.png" alt="Mascota Cañihua">
+</div>
+    </div>
+  </div>
+</section>
+
+<div class="flavor-bar">
+  <div class="flavor-scroller" id="flavorScroller" role="tablist" aria-label="Selector de sabor">
+    <button class="flavor-btn active" data-flavor="canihua" role="tab" aria-selected="true">
+      <span class="swatch" data-flavor="canihua"></span> Cañihua
+    </button>
+    <button class="flavor-btn" data-flavor="quinua" role="tab" aria-selected="false">
+      <span class="swatch" data-flavor="quinua"></span> Quinua
+    </button>
+    <button class="flavor-btn" data-flavor="kiwicha" role="tab" aria-selected="false">
+      <span class="swatch" data-flavor="kiwicha"></span> Kiwicha
+    </button>
+    <button class="flavor-btn" data-flavor="tarwi" role="tab" aria-selected="false">
+      <span class="swatch" data-flavor="tarwi"></span> Tarwi
+    </button>
+    <button class="flavor-btn" data-flavor="habas" role="tab" aria-selected="false">
+      <span class="swatch" data-flavor="habas"></span> Habas
+    </button>
+  </div>
+</div>
+
+<main class="container">
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Composición de la fórmula</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Componente</th>
+            <th>Cantidad</th>
+            <th>% de la fórmula</th>
+          </tr>
+        </thead>
+        <tbody id="composicionBody">
+          <!-- generado por JS -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <span class="tag" id="porcionTag">Por 30 g</span>
+      <h2>Información nutricional</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nutriente</th>
+            <th id="cantidadHeader">Cantidad por 30 g</th>
+          </tr>
+        </thead>
+        <tbody id="nutricionBody">
+          <!-- generado por JS -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="note">
+    <strong>† Nota:</strong>
+    los valores de grasas monoinsaturadas y poliinsaturadas son estimaciones calculadas a partir de perfiles de referencia y de la proporción de ingredientes de la fórmula; no sustituyen un análisis de laboratorio del producto terminado. La tabla corresponde a una porción de 30 g (1 sobre).
+  </div>
+
+  <div class="sources">
+    Fuente internacional: USDA FoodData Central / National Nutrient Database for Standard Reference. Fuente nacional para granos andinos: Tablas Peruanas de Composición de Alimentos, CENAN / Instituto Nacional de Salud (2017). Valores estimados; para rotulado definitivo se requiere análisis proximal y de micronutrientes de un lote real en laboratorio acreditado.
+  </div>
+
+</main>
+
+<div class="footer">
+  Yuyay Mix · Información nutricional de referencia · Diseño adaptable para computadora y celular.
+</div>
+
+<script>
+(function(){
+
+  const flavors = {
+    canihua: {
+      name: "Cañihua",
+      grainLabel: "cañihua",
+      subtitle: "de este grano andino, rico en hierro y proteína completa.",
+      nutrients: { kcal:113, prot:4.9, fat:3.0, sat:1.4, mono:0.7, poly:0.9, trans:0.0, carbs:13.4, sugars:3.4, addSugars:0, fiber:4.1, sodium:31, calcium:111, iron:3.1, zinc:1.2 }
+    },
+    quinua: {
+      name: "Quinua",
+      grainLabel: "quinua",
+      subtitle: "de este grano andino, reconocido por su alto contenido de calcio.",
+      nutrients: { kcal:112, prot:4.9, fat:3.3, sat:1.5, mono:0.5, poly:1.3, trans:0.0, carbs:15.3, sugars:3.5, addSugars:0, fiber:2.7, sodium:31, calcium:94, iron:1.6, zinc:0.9 }
+    },
+    kiwicha: {
+      name: "Kiwicha",
+      grainLabel: "kiwicha",
+      subtitle: "de este grano andino, con el mayor aporte de calcio del mix.",
+      nutrients: { kcal:119, prot:4.8, fat:3.6, sat:1.6, mono:0.8, poly:1.2, trans:0.0, carbs:15.0, sugars:3.4, addSugars:0, fiber:2.6, sodium:31, calcium:130, iron:1.6, zinc:0.9 }
+    },
+    tarwi: {
+      name: "Tarwi",
+      grainLabel: "tarwi (chocho)",
+      subtitle: "de esta leguminosa andina, la variedad con más proteína y grasa insaturada.",
+      nutrients: { kcal:124, prot:11.1, fat:6.2, sat:1.8, mono:2.5, poly:1.9, trans:0.0, carbs:5.4, sugars:3.3, addSugars:0, fiber:3.3, sodium:32, calcium:102, iron:1.0, zinc:1.2 }
+    },
+    habas: {
+      name: "Habas",
+      grainLabel: "habas",
+      subtitle: "de esta leguminosa andina, con el mayor aporte de fibra dietaria.",
+      nutrients: { kcal:112, prot:7.3, fat:2.5, sat:1.4, mono:0.5, poly:0.5, trans:0.0, carbs:10.0, sugars:3.5, addSugars:0, fiber:6.3, sodium:32, calcium:103, iron:1.3, zinc:0.9 }
+    }
+  };
+
+  const composicionRows = (grainLabel) => [
+    { label: `Harina tostada de ${grainLabel}`, amount: "20,00 g", pct: "66,7 %" },
+    { label: "Leche entera en polvo", amount: "8,00 g", pct: "26,7 %" },
+    { label: "Canela molida", amount: "1,00 g", pct: "3,3 %" },
+    { label: "Goma guar (estabilizante)", amount: "0,85 g", pct: "2,8 %" },
+    { label: "Estevia (glucósidos de esteviol)", amount: "0,15 g", pct: "0,5 %" }
+  ];
+
+  function fmt(n){
+    return String(n).replace(".", ",");
+  }
+
+  function renderComposicion(grainLabel){
+    const rows = composicionRows(grainLabel);
+    let html = rows.map(r => `
+      <tr>
+        <td>${r.label}</td>
+        <td>${r.amount}</td>
+        <td>${r.pct}</td>
+      </tr>
+    `).join("");
+    html += `
+      <tr class="total-row">
+        <td>TOTAL</td>
+        <td>30,00 g</td>
+        <td>100 %</td>
+      </tr>
+    `;
+    document.getElementById("composicionBody").innerHTML = html;
+  }
+
+  function renderNutricion(n){
+    const rows = [
+      { label: "Energía", value: `${fmt(n.kcal)} kcal` },
+      { label: "Proteínas", value: `${fmt(n.prot)} g` },
+      { label: "Grasa total", value: `${fmt(n.fat)} g` },
+      { label: "— Saturadas", value: `${fmt(n.sat)} g`, group:true },
+      { label: "— Monoinsaturadas†", value: `${fmt(n.mono)} g`, group:true },
+      { label: "— Poliinsaturadas†", value: `${fmt(n.poly)} g`, group:true },
+      { label: "— Trans", value: `${fmt(n.trans)} g`, group:true },
+      { label: "Carbohidratos disponibles", value: `${fmt(n.carbs)} g` },
+      { label: "— Azúcares totales", value: `${fmt(n.sugars)} g`, group:true },
+      { label: "— Azúcares añadidos", value: `${fmt(n.addSugars)} g`, group:true },
+      { label: "Fibra dietaria", value: `${fmt(n.fiber)} g` },
+      { label: "Sodio", value: `${fmt(n.sodium)} mg` },
+      { label: "Calcio", value: `${fmt(n.calcium)} mg` },
+      { label: "Hierro", value: `${fmt(n.iron)} mg` },
+      { label: "Zinc", value: `${fmt(n.zinc)} mg` }
+    ];
+    document.getElementById("nutricionBody").innerHTML = rows.map(r => `
+      <tr${r.group ? ' class="group"' : ''}>
+        <td>${r.label}</td>
+        <td>${r.value}</td>
+      </tr>
+    `).join("");
+  }
+
+  function setFlavor(key){
+    const f = flavors[key];
+    if(!f) return;
+
+    document.documentElement.setAttribute("data-flavor", key);
+
+    document.getElementById("heroTitle").textContent = f.name;
+    document.getElementById("heroSubtitle").innerHTML =
+      `Información nutricional por porción de <strong>30 g</strong>, presentada de forma clara para conocer el aporte ${f.subtitle}`;
+
+    const slotLabel = document.getElementById("imageSlotLabel");
+    if(slotLabel){
+      slotLabel.innerHTML = `Espacio para imagen<br>${f.name}`;
+    }
+
+    renderComposicion(f.grainLabel);
+    renderNutricion(f.nutrients);
+
+    document.querySelectorAll(".flavor-btn").forEach(btn => {
+      const isActive = btn.dataset.flavor === key;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
+    });
+  }
+
+  document.getElementById("flavorScroller").addEventListener("click", (e) => {
+    const btn = e.target.closest(".flavor-btn");
+    if(!btn) return;
+    setFlavor(btn.dataset.flavor);
+  });
+
+  setFlavor("canihua");
+
+})();
+</script>
+
+</body>
+</html>
